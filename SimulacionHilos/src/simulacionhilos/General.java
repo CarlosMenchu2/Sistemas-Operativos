@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class General extends javax.swing.JFrame {
     
-     int contador=0;
+     int contadorprocesos=0;
+     int cuantum=0;
 
     /**
      * Creates new form General
@@ -42,10 +46,11 @@ public class General extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         txtcuantum = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnIniciar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jlbHora = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -54,24 +59,30 @@ public class General extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(136, 30, 50));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtcuantum.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jPanel1.add(txtcuantum, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 140, -1));
+        txtcuantum.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jPanel1.add(txtcuantum, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 140, 70));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Cuantum");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Aceptar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, -1, -1));
+        btnIniciar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnIniciar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Iniciar.png"))); // NOI18N
+        btnIniciar.setBorder(null);
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Iniciar");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 180, -1, -1));
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Establecer Cuantum");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 380));
 
@@ -80,14 +91,18 @@ public class General extends javax.swing.JFrame {
 
         jlbHora.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jlbHora.setText("---");
-        jPanel2.add(jlbHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
+        jPanel2.add(jlbHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 130, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setText("Hora");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 0, 610, 380));
 
         jPanel3.setBackground(new java.awt.Color(10, 33, 51));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -106,7 +121,7 @@ public class General extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 930, 150));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 990, 150));
 
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Agregar.png"))); // NOI18N
         btnAgregar.setBorder(null);
@@ -125,8 +140,29 @@ public class General extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        ingresar();
+       
+       
+            
+            ingresar();
+      
+        
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        // TODO add your handling code here:
+
+         if(!txtcuantum.getText().equals("")){
+             
+            cuantum = Integer.valueOf(txtcuantum.getText());
+            new Thread(new Hilo_de_Procesos()).start();
+            
+        }else{
+             JOptionPane.showMessageDialog(null,"Debe de ingresar el cuantum");
+        }
+        
+        
+    }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,13 +226,14 @@ public class General extends javax.swing.JFrame {
     public void ingresar(){
     
         DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel();
-        contador++;
-        String titulo = "Proceso "+contador;
+        contadorprocesos++;
+        String titulo = "Proceso "+contadorprocesos;
+        int duracionP=duracion_Proceso();
         Object[] tablaProceso = new Object[5];
         tablaProceso[0] = titulo;
         tablaProceso[1] = jlbHora.getText();
-        tablaProceso[2] =  duracion_Proceso();
-        tablaProceso[3] = "";
+        tablaProceso[2] =  duracionP;
+        tablaProceso[3] =  duracionP;
         tablaProceso[4] = "";
         modelo.addRow(tablaProceso);
         jTable1.setModel(modelo);
@@ -209,12 +246,109 @@ public class General extends javax.swing.JFrame {
         
     }
     
-
+    
+    public class Hilo_de_Procesos implements Runnable{
+        
+        @Override
+        public void run(){
+           
+            boolean Bandera = true;
+            int contadorIteraciones=0;
+            int proceso,tiempoTotalEjecucion=0;
+            int tiempoRestanteE=0;
+            
+            while(Bandera!=false){
+                
+                while(contadorIteraciones<contadorprocesos){
+                    
+                    tiempoTotalEjecucion = tiempoEjecucion(contadorIteraciones);
+                    tiempoRestanteE = tiempoRestante(contadorIteraciones);
+                    
+                    if(tiempoRestanteE!=0 && tiempoRestanteE>cuantum){
+                        
+                        for (int TiempoE = 1; TiempoE <=cuantum; TiempoE++) {
+                            
+                            tiempoRestanteE=tiempoRestanteE-1;
+                            jTable1.setValueAt(String.valueOf(tiempoRestanteE),contadorIteraciones,3);
+                            espera();
+                        }
+                        
+                        verificarTiempoR(tiempoRestanteE,contadorIteraciones);
+                        
+                    }else if(tiempoRestanteE!=0 && tiempoRestanteE<cuantum){
+                        
+                        while(tiempoRestanteE>0){
+                            
+                            tiempoRestanteE=tiempoRestanteE-1;
+                            jTable1.setValueAt(String.valueOf(tiempoRestanteE),contadorIteraciones,3);
+                            espera();
+                        }
+                        
+                        verificarTiempoR(tiempoRestanteE,contadorIteraciones);
+                        
+                        
+                    }else if (tiempoRestanteE==0){
+                        
+                        Bandera=false;
+                        
+                    }
+                    
+                    contadorIteraciones++;
+                }
+                contadorIteraciones=0;
+                
+            }
+            
+            
+        }
+        
+    }
+    
+    public String numeroProceso(int numeroProceso){
+        
+        return String.valueOf(jTable1.getValueAt(numeroProceso,0));
+        
+    }
+    
+    public int tiempoEjecucion(int numeroProceso){
+        
+        return Integer.valueOf(jTable1.getValueAt(numeroProceso,2).toString()); 
+        
+    }
+    
+    public  int tiempoRestante(int numeroProceso){
+        
+        return Integer.valueOf(jTable1.getValueAt(numeroProceso,3).toString());
+        
+    }
+    
+    public void espera(){
+        
+        try{
+        Thread.sleep(1000); //Dormir sistema
+    }catch(InterruptedException ex){
+        Logger.getLogger(General.class.getName()).log(Level.SEVERE,null,ex);
+    }
+        
+    }
+    
+    public void verificarTiempoR(int tiempoRestante,int numeroProceso){
+        
+        if(tiempoRestante==0){
+                            
+           //DefaultTableModel modelo = (DefaultTableModel)jTable1.getModel(); 
+           //modelo.removeRow(numeroProceso); 
+           jTable1.setValueAt(jlbHora.getText(), numeroProceso, 4);
+                            
+        }
+        
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnIniciar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
